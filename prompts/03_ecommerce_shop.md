@@ -1,4 +1,4 @@
-# Scénario 3 — Boutique en ligne
+# Scénario 3: Boutique en ligne
 
 ## Prompt à soumettre (texte exact)
 
