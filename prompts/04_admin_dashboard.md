@@ -1,4 +1,4 @@
-# Scénario 4 — Tableau de bord administratif
+# Scénario 4: Tableau de bord administratif
 
 ## Prompt à soumettre (texte exact)
 
