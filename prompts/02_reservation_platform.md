@@ -1,4 +1,4 @@
-# Scénario 2 — Plateforme de réservation
+# Scénario 2: Plateforme de réservation
 
 ## Prompt à soumettre (texte exact)
 
