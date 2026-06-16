@@ -1,0 +1,18 @@
+<%- include('../layout_top') %>
+<section class="card narrow">
+  <h1>Modifier la réservation</h1>
+  <form method="post" action="/reservations/<%= reservation.id %>?_method=PUT" class="form">
+    <label>Titre <input name="title" value="<%= reservation.title %>" required></label>
+    <label>Salle
+      <select name="room_id" required>
+        <% rooms.forEach(room => { %>
+          <option value="<%= room.id %>" <%= reservation.room_id === room.id ? 'selected' : '' %>><%= room.name %> - <%= room.capacity %> pers.</option>
+        <% }) %>
+      </select>
+    </label>
+    <label>Début <input type="datetime-local" name="start_time" value="<%= reservation.start_time.replace(' ', 'T') %>" required></label>
+    <label>Fin <input type="datetime-local" name="end_time" value="<%= reservation.end_time.replace(' ', 'T') %>" required></label>
+    <button class="primary">Enregistrer</button>
+  </form>
+</section>
+<%- include('../layout_bottom') %>

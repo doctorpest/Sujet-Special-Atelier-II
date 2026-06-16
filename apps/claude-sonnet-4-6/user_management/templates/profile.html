@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Mon profil — UserVault{% endblock %}
+{% block content %}
+<div class="card card-md">
+  <div class="profile-header">
+    <div class="avatar">{{ user['full_name'][0].upper() }}</div>
+    <div class="profile-meta">
+      <div class="profile-name">{{ user['full_name'] }}</div>
+      <div class="profile-email">{{ user['email'] }}</div>
+      <div style="margin-top:.5rem;">
+        <span class="badge badge-{{ user['role'] }}">{{ user['role'] }}</span>
+      </div>
+    </div>
+    <a href="{{ url_for('edit_profile') }}" class="btn btn-ghost btn-sm">✏ Modifier</a>
+  </div>
+
+  <hr class="divider">
+
+  <div class="info-grid">
+    <div class="info-item">
+      <label>Nom complet</label>
+      <div class="info-value">{{ user['full_name'] }}</div>
+    </div>
+    <div class="info-item">
+      <label>Email</label>
+      <div class="info-value">{{ user['email'] }}</div>
+    </div>
+    <div class="info-item">
+      <label>Rôle</label>
+      <div class="info-value">
+        <span class="badge badge-{{ user['role'] }}">{{ user['role'] }}</span>
+      </div>
+    </div>
+    <div class="info-item">
+      <label>Membre depuis</label>
+      <div class="info-value">{{ user['created_at'][:10] }}</div>
+    </div>
+    <div class="info-item">
+      <label>Dernière mise à jour</label>
+      <div class="info-value">{{ user['updated_at'][:10] }}</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="flex-gap">
+    <a href="{{ url_for('forgot_password') }}" class="btn btn-ghost btn-sm">🔑 Changer le mot de passe</a>
+    {% if user['role'] == 'admin' %}
+      <a href="{{ url_for('admin_users') }}" class="btn btn-sm btn-ghost" style="color:var(--gold);border-color:var(--gold);">⚙ Espace admin</a>
+    {% endif %}
+    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm" style="margin-left:auto;">Déconnexion</a>
+  </div>
+</div>
+{% endblock %}

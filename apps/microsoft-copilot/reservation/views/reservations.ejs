@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mes réservations</title>
+</head>
+<body>
+  <% include partials_header %>
+
+  <h1>Mes réservations</h1>
+
+  <a href="/reservations/new">Nouvelle réservation</a>
+
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+        <th>Salle</th>
+        <th>Date</th>
+        <th>Heure</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (reservations.length === 0) { %>
+        <tr><td colspan="4">Aucune réservation.</td></tr>
+      <% } %>
+      <% reservations.forEach(r => { %>
+        <tr>
+          <td><%= r.room_name %></td>
+          <td><%= r.date %></td>
+          <td><%= r.start_time %> - <%= r.end_time %></td>
+          <td>
+            <a href="/reservations/<%= r.id %>/edit">Modifier</a>
+            <form action="/reservations/<%= r.id %>/delete" method="post" style="display:inline;">
+              <button type="submit" onclick="return confirm('Annuler cette réservation ?');">Annuler</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>

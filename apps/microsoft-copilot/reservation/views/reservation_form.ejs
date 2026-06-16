@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title><%= reservation ? 'Modifier la réservation' : 'Nouvelle réservation' %></title>
+</head>
+<body>
+  <% include partials_header %>
+
+  <h1><%= reservation ? 'Modifier la réservation' : 'Nouvelle réservation' %></h1>
+
+  <form
+    action="<%= reservation ? '/reservations/' + reservation.id + '/edit' : '/reservations' %>"
+    method="post"
+  >
+    <div>
+      <label>Salle :</label>
+      <select name="room_id" required>
+        <option value="">Choisir une salle</option>
+        <% rooms.forEach(room => { %>
+          <option value="<%= room.id %>"
+            <%= (selectedRoomId == room.id) ? 'selected' : '' %>>
+            <%= room.name %> (capacité <%= room.capacity %>)
+          </option>
+        <% }) %>
+      </select>
+    </div>
+    <div>
+      <label>Date :</label>
+      <input type="date" name="date" required value="<%= reservation ? reservation.date : '' %>">
+    </div>
+    <div>
+      <label>Heure début :</label>
+      <input type="time" name="start_time" required value="<%= reservation ? reservation.start_time : '' %>">
+    </div>
+    <div>
+      <label>Heure fin :</label>
+      <input type="time" name="end_time" required value="<%= reservation ? reservation.end_time : '' %>">
+    </div>
+    <button type="submit"><%= reservation ? 'Mettre à jour' : 'Réserver' %></button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<%- include('../layout_top') %>
+<section class="card narrow profile">
+  <h1>Mon profil</h1>
+  <img class="profile-photo" src="<%= user.profile_photo %>" alt="Photo de profil">
+  <p><strong>Nom :</strong> <%= user.name %></p>
+  <p><strong>Email :</strong> <%= user.email %></p>
+  <form method="post" action="/profile/photo" enctype="multipart/form-data" class="form">
+    <label>Nouvelle photo <input type="file" name="profile_photo" accept="image/*" required></label>
+    <button class="primary">Téléverser</button>
+  </form>
+</section>
+<%- include('../layout_bottom') %>

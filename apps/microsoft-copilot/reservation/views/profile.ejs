@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon profil</title>
+</head>
+<body>
+  <% include partials_header %>
+
+  <h1>Mon profil</h1>
+
+  <p><strong>Nom :</strong> <%= user.name %></p>
+  <p><strong>Email :</strong> <%= user.email %></p>
+
+  <h2>Photo de profil</h2>
+  <% if (user.profile_photo) { %>
+    <img src="<%= user.profile_photo %>" alt="Photo de profil" style="max-width:150px;">
+  <% } else { %>
+    <p>Aucune photo de profil.</p>
+  <% } %>
+
+  <form action="/profile/photo" method="post" enctype="multipart/form-data">
+    <div>
+      <label>Nouvelle photo :</label>
+      <input type="file" name="profile_photo" accept="image/*" required>
+    </div>
+    <button type="submit">Mettre à jour</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Erreur {{ code }} — UserVault{% endblock %}
+{% block content %}
+<div class="card card-sm text-center">
+  <div style="font-family:'DM Serif Display',serif;font-size:5rem;color:var(--border);line-height:1;">{{ code }}</div>
+  <h1 class="card-title" style="font-size:1.3rem;margin-top:.5rem;">Oups !</h1>
+  <p class="card-subtitle">{{ message }}</p>
+  <a href="{{ url_for('index') }}" class="btn btn-primary" style="margin-top:.5rem;">Retour à l'accueil</a>
+</div>
+{% endblock %}

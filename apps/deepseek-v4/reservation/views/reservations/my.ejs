@@ -1,0 +1,25 @@
+<%- layout('layout') %>
+<h2>Mes réservations</h2>
+<% if (reservations.length === 0) { %>
+  <p>Aucune réservation pour le moment.</p>
+<% } else { %>
+  <table class="table table-striped">
+    <thead><tr><th>Salle</th><th>Date</th><th>Début</th><th>Fin</th><th>Actions</th></tr></thead>
+    <tbody>
+      <% reservations.forEach(r => { %>
+        <tr>
+          <td><%= r.roomName %> (<%= r.capacity %> pers.)</td>
+          <td><%= new Date(r.start_time).toLocaleDateString() %></td>
+          <td><%= new Date(r.start_time).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %></td>
+          <td><%= new Date(r.end_time).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %></td>
+          <td>
+            <a href="/reservations/<%= r.id %>/edit" class="btn btn-sm btn-outline-primary">Modifier</a>
+            <form method="POST" action="/reservations/<%= r.id %>/cancel" style="display:inline">
+              <button type="submit" class="btn btn-sm btn-outline-danger">Annuler</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>

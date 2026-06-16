@@ -1,0 +1,51 @@
+<%- include('layout', { active: 'home' }) %>
+
+<% block('body') %>
+<div class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Bienvenue sur notre plateforme de réservation</h1>
+            <p>Réservez facilement des salles de réunion</p>
+            <% if (user) { %>
+                <div class="hero-buttons">
+                    <a href="/rooms" class="btn btn-primary"><i class="fas fa-search"></i> Rechercher une salle</a>
+                    <a href="/reservations/new" class="btn btn-secondary"><i class="fas fa-calendar-plus"></i> Nouvelle réservation</a>
+                </div>
+            <% } else { %>
+                <div class="hero-buttons">
+                    <a href="/login" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+                    <a href="/register" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Inscription</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<div class="features">
+    <div class="container">
+        <h2 class="section-title">Nos fonctionnalités</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+                <h3>Réservation facile</h3>
+                <p>Réservez une salle en quelques clics.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-search"></i></div>
+                <h3>Recherche avancée</h3>
+                <p>Trouvez la salle parfaite.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-envelope"></i></div>
+                <h3>Confirmations par email</h3>
+                <p>Recevez des confirmations instantanées.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-user-cog"></i></div>
+                <h3>Gestion du profil</h3>
+                <p>Personnalisez votre profil.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<% endblock %>

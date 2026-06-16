@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= room.name %> — MeetRoom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%- include('../partials/nav', { active: 'rooms' }) %>
+<%- include('../partials/flash') %>
+<main>
+  <a href="/rooms" class="btn btn-outline btn-sm" style="margin-bottom:24px;">← Retour aux salles</a>
+
+  <div style="display:grid; grid-template-columns:1fr 380px; gap:28px; align-items:start;">
+    <!-- Left: detail -->
+    <div>
+      <div class="card" style="overflow:hidden; margin-bottom:20px;">
+        <img src="<%= room.photo %>" alt="<%= room.name %>" style="width:100%; height:320px; object-fit:cover;">
+      </div>
+
+      <div class="card" style="padding:28px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+          <h1 style="font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:600;"><%= room.name %></h1>
+          <span class="badge badge-gold" style="font-size:14px; padding:6px 14px;">👥 <%= room.capacity %> personnes</span>
+        </div>
+        <% if (room.floor) { %>
+          <p style="color:var(--muted); font-size:13px; margin-bottom:12px;">📍 <%= room.floor %></p>
+        <% } %>
+        <p style="color:var(--muted); line-height:1.7; margin-bottom:20px;"><%= room.description || '' %></p>
+
+        <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); margin-bottom:12px;">Équipements</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <% room.equipment.split(',').forEach(eq => { %>
+            <span style="background:var(--cream); padding:6px 14px; border-radius:6px; font-size:13px;">✓ <%= eq.trim() %></span>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: book + agenda -->
+    <div>
+      <div class="card" style="padding:24px; margin-bottom:16px; border-top:3px solid var(--gold);">
+        <h3 style="font-family:'Cormorant Garamond',serif; font-size:20px; margin-bottom:16px;">Réserver cette salle</h3>
+        <a href="/reservations/new?room_id=<%= room.id %>" class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;">Choisir un créneau</a>
+      </div>
+
+      <div class="card" style="padding:24px;">
+        <h3 style="font-family:'Cormorant Garamond',serif; font-size:18px; margin-bottom:16px;">Agenda à venir</h3>
+        <% if (reservations.length === 0) { %>
+          <p style="color:var(--muted); font-size:14px; text-align:center; padding:20px 0;">Aucune réservation prévue</p>
+        <% } else { %>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <% let lastDate = ''; reservations.forEach(r => { %>
+              <% if (r.date !== lastDate) { lastDate = r.date; %>
+                <div style="font-size:11px; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); padding-top:4px; border-top:1px solid var(--border); margin-top:4px;">
+                  <%= new Date(r.date + 'T00:00:00').toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'}) %>
+                </div>
+              <% } %>
+              <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 10px; background:var(--cream); border-radius:6px;">
+                <div>
+                  <div style="font-size:13px; font-weight:500;"><%= r.title %></div>
+                  <div style="font-size:12px; color:var(--muted);"><%= r.start_time %> – <%= r.end_time %></div>
+                </div>
+                <div style="font-size:11px; color:var(--muted); text-align:right;">par <%= r.user_name %></div>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>© <%= new Date().getFullYear() %> MeetRoom</footer>
+</body>
+</html>

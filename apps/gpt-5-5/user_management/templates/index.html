@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<h1>Application de gestion d'utilisateurs</h1>
+
+<p>
+    Cette application permet l'inscription, la connexion, la gestion de profil,
+    l'administration des utilisateurs et la réinitialisation de mot de passe.
+</p>
+
+{% if current_user %}
+    <p>Connecté en tant que <strong>{{ current_user.full_name }}</strong>.</p>
+    <p><a href="{{ url_for('profile') }}">Voir mon profil</a></p>
+{% else %}
+    <p>
+        <a href="{{ url_for('register') }}">Créer un compte</a>
+        ou
+        <a href="{{ url_for('login') }}">se connecter</a>.
+    </p>
+{% endif %}
+{% endblock %}

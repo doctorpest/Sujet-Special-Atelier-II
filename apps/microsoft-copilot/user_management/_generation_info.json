@@ -1,0 +1,18 @@
+{
+  "llm_version": "microsoft-copilot",
+  "llm_access_method": "web_chat",
+  "generation_date": "2026-05-06T22:30:00Z",
+  "deployment": {
+    "port": 5000,
+    "start_command": "python app.py"
+  },
+  "interaction_log": {
+    "n_messages_total": 1,
+    "clarification_requested": false,
+    "continued_after_truncation": false,
+    "deviation_from_prompt": "",
+    "refused_or_warned": false,
+    "underlying_model_assumed": "GPT-4o ou GPT-5 family (non explicité par Microsoft)"
+  },
+  "notes": "Copilot ne révèle pas le modèle sous-jacent exact. Mode conversation utilisé."
+}

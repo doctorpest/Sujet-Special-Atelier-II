@@ -1,0 +1,33 @@
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-info-circle"></i> À propos</h3>
+                <p>Plateforme de réservation de salles de réunion.</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-link"></i> Liens utiles</h3>
+                <ul>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/rooms">Salles disponibles</a></li>
+                    <% if (user) { %>
+                        <li><a href="/reservations">Mes réservations</a></li>
+                        <li><a href="/profile">Mon profil</a></li>
+                    <% } else { %>
+                        <li><a href="/login">Connexion</a></li>
+                        <li><a href="/register">Inscription</a></li>
+                    <% } %>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Contact</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Montréal, QC</p>
+                <p><i class="fas fa-phone"></i> +1 (514) 123-4567</p>
+                <p><i class="fas fa-envelope"></i> contact@reservation.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <%= new Date().getFullYear() %> Plateforme de Réservation. Tous droits réservés.</p>
+        </div>
+    </div>
+</footer>

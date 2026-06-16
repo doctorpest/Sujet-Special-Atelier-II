@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Administration — UserVault{% endblock %}
+{% block content %}
+<div class="card card-lg">
+  <div class="flex-between page-header" style="margin-bottom:1.5rem;">
+    <div>
+      <h1 style="font-family:'DM Serif Display',serif;font-size:1.8rem;">Gestion des utilisateurs</h1>
+      <p class="text-muted" style="margin-top:.25rem;">{{ users|length }} utilisateur{{ 's' if users|length != 1 }} enregistré{{ 's' if users|length != 1 }}</p>
+    </div>
+    <a href="{{ url_for('register') }}" class="btn btn-ghost btn-sm">+ Nouvel utilisateur</a>
+  </div>
+
+  {% if users %}
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Rôle</th>
+          <th>Inscrit le</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td class="text-muted" style="font-size:.85rem;">{{ u['id'] }}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:.6rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;">
+                {{ u['full_name'][0].upper() }}
+              </div>
+              <span style="font-weight:500;">{{ u['full_name'] }}</span>
+              {% if u['id'] == current_user['id'] %}
+                <span style="font-size:.72rem;color:var(--muted);">(vous)</span>
+              {% endif %}
+            </div>
+          </td>
+          <td class="text-muted" style="font-size:.88rem;">{{ u['email'] }}</td>
+          <td><span class="badge badge-{{ u['role'] }}">{{ u['role'] }}</span></td>
+          <td class="text-muted" style="font-size:.85rem;">{{ u['created_at'][:10] }}</td>
+          <td>
+            {% if u['id'] != current_user['id'] %}
+            <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+              <!-- Change role form -->
+              <form method="post" action="{{ url_for('change_role', user_id=u['id']) }}" style="display:flex;gap:.3rem;align-items:center;">
+                <select name="role" style="width:auto;padding:.3rem .6rem;font-size:.8rem;border-radius:4px;">
+                  <option value="user"      {{ 'selected' if u['role']=='user' }}>user</option>
+                  <option value="moderator" {{ 'selected' if u['role']=='moderator' }}>moderator</option>
+                  <option value="admin"     {{ 'selected' if u['role']=='admin' }}>admin</option>
+                </select>
+                <button type="submit" class="btn btn-success btn-sm">✓</button>
+              </form>
+              <!-- Delete form -->
+              <form method="post" action="{{ url_for('delete_user', user_id=u['id']) }}"
+                    onsubmit="return confirm('Supprimer {{ u['full_name'] }} ? Cette action est irréversible.')">
+                <button type="submit" class="btn btn-danger btn-sm">✕</button>
+              </form>
+            </div>
+            {% else %}
+              <span class="text-muted" style="font-size:.8rem;">—</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="text-center text-muted" style="padding:2rem;">Aucun utilisateur trouvé.</p>
+  {% endif %}
+</div>
+{% endblock %}

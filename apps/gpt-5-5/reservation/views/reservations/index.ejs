@@ -1,0 +1,26 @@
+<%- include('../layout_top') %>
+<section class="hero">
+  <h1>Mes réservations</h1>
+  <a class="button primary" href="/reservations/new">Nouvelle réservation</a>
+</section>
+<div class="list">
+  <% reservations.forEach(r => { %>
+    <article class="card reservation">
+      <img src="<%= r.room_photo %>" alt="<%= r.room_name %>">
+      <div>
+        <h2><%= r.title %></h2>
+        <p><strong>Salle :</strong> <%= r.room_name %> (<%= r.capacity %> pers.)</p>
+        <p><strong>Début :</strong> <%= r.start_time %></p>
+        <p><strong>Fin :</strong> <%= r.end_time %></p>
+        <div class="actions">
+          <a class="button" href="/reservations/<%= r.id %>/edit">Modifier</a>
+          <form class="inline" method="post" action="/reservations/<%= r.id %>?_method=DELETE" onsubmit="return confirm('Annuler cette réservation ?')">
+            <button class="danger">Annuler</button>
+          </form>
+        </div>
+      </div>
+    </article>
+  <% }) %>
+  <% if (!reservations.length) { %><p>Vous n’avez pas encore de réservation.</p><% } %>
+</div>
+<%- include('../layout_bottom') %>

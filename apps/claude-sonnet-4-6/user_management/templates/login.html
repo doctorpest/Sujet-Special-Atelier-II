@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Connexion — UserVault{% endblock %}
+{% block content %}
+<div class="card card-sm">
+  <h1 class="card-title">Connexion</h1>
+  <p class="card-subtitle">Accédez à votre espace personnel.</p>
+
+  <form method="post">
+    <div class="form-group">
+      <label for="email">Adresse email</label>
+      <input type="email" id="email" name="email" required autofocus placeholder="vous@exemple.com">
+    </div>
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" name="password" required placeholder="••••••••">
+    </div>
+    <div style="text-align:right; margin-bottom:1.25rem;">
+      <a href="{{ url_for('forgot_password') }}" class="link" style="font-size:.85rem;">Mot de passe oublié ?</a>
+    </div>
+    <button type="submit" class="btn btn-primary">Se connecter</button>
+  </form>
+
+  <hr class="divider">
+  <p class="text-center text-muted" style="font-size:.9rem;">
+    Pas encore de compte ?
+    <a href="{{ url_for('register') }}" class="link">S'inscrire</a>
+  </p>
+
+  <div style="margin-top:1.5rem; padding:1rem; background:var(--cream); border-radius:4px; font-size:.82rem; color:var(--muted);">
+    <strong>Compte démo admin :</strong><br>
+    Email : <code>admin@example.com</code><br>
+    Mot de passe : <code>Admin1234!</code>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion</title>
+</head>
+<body>
+  <% include partials_header %>
+
+  <h1>Connexion</h1>
+  <form action="/login" method="post">
+    <div>
+      <label>Email :</label>
+      <input type="email" name="email" required>
+    </div>
+    <div>
+      <label>Mot de passe :</label>
+      <input type="password" name="password" required>
+    </div>
+    <button type="submit">Se connecter</button>
+  </form>
+</body>
+</html>

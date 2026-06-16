@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Profil{% endblock %}
+{% block content %}
+<h2>Mon profil</h2>
+<table class="table mt-3">
+    <tr>
+        <th>ID</th>
+        <td>{{ user.id }}</td>
+    </tr>
+    <tr>
+        <th>Nom complet</th>
+        <td>{{ user.full_name }}</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+        <th>Rôle</th>
+        <td>{{ user.role }}</td>
+    </tr>
+    <tr>
+        <th>Créé le</th>
+        <td>{{ user.created_at }}</td>
+    </tr>
+</table>
+{% endblock %}

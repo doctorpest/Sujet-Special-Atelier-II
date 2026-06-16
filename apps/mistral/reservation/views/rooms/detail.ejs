@@ -1,0 +1,107 @@
+<%- include('layout', { active: 'rooms' }) %>
+
+<% block('body') %>
+<div class="page-header">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Accueil</a><i class="fas fa-chevron-right"></i>
+            <a href="/rooms">Salles</a><i class="fas fa-chevron-right"></i>
+            <span><%= room.name %></span>
+        </div>
+        <h1><i class="fas fa-door-open"></i> <%= room.name %></h1>
+    </div>
+</div>
+
+<div class="room-detail-section">
+    <div class="container">
+        <div class="room-detail-grid">
+            <div class="room-detail-main">
+                <div class="room-detail-image">
+                    <% if (room.photo_url) { %>
+                        <img src="<%= room.photo_url %>" alt="<%= room.name %>">
+                    <% } else { %>
+                        <div class="room-placeholder-large"><i class="fas fa-door-closed"></i></div>
+                    <% } %>
+                </div>
+                <div class="room-detail-info">
+                    <h2>Description</h2>
+                    <p><%= room.description || 'Aucune description disponible.' %></p>
+                    <h2>Caractéristiques</h2>
+                    <div class="room-features">
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <div><strong>Capacité</strong><p><%= room.capacity %> personnes</p></div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-tools"></i>
+                            <div><strong>Équipement</strong><p><%= room.equipment || 'Aucun équipement' %></p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="room-detail-sidebar">
+                <div class="room-detail-card">
+                    <h3><i class="fas fa-calendar-alt"></i> Réserver cette salle</h3>
+                    <% if (user) { %>
+                        <form action="/reservations" method="POST" class="reservation-form">
+                            <input type="hidden" name="roomId" value="<%= room.id %>">
+                            <div class="form-group">
+                                <label for="date">Date *</label>
+                                <input type="date" id="date" name="date" min="<%= new Date().toISOString().split('T')[0] %>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="startTime">Heure de début *</label>
+                                <select id="startTime" name="startTime" required>
+                                    <option value="">Sélectionnez</option>
+                                    <% for (let h = 8; h <= 18; h++) { %>
+                                        <option value="<%= h.toString().padStart(2, '0') %>:00"><%= h.toString().padStart(2, '0') %>:00</option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="endTime">Heure de fin *</label>
+                                <select id="endTime" name="endTime" required>
+                                    <option value="">Sélectionnez</option>
+                                    <% for (let h = 9; h <= 19; h++) { %>
+                                        <option value="<%= h.toString().padStart(2, '0') %>:00"><%= h.toString().padStart(2, '0') %>:00</option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-calendar-plus"></i> Réserver maintenant</button>
+                        </form>
+                    <% } else { %>
+                        <div class="login-prompt">
+                            <p>Vous devez être connecté pour réserver.</p>
+                            <div class="login-prompt-buttons">
+                                <a href="/login" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Se connecter</a>
+                                <a href="/register" class="btn btn-secondary"><i class="fas fa-user-plus"></i> S'inscrire</a>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="room-detail-card">
+                    <h3><i class="fas fa-clock"></i> Prochaines réservations</h3>
+                    <% if (reservations.length > 0) { %>
+                        <div class="upcoming-reservations">
+                            <% reservations.slice(0, 5).forEach(reservation => { %>
+                                <div class="reservation-item">
+                                    <div class="reservation-date">
+                                        <strong><%= new Date(reservation.start_time).toLocaleDateString('fr-CA', { weekday: 'short', day: 'numeric', month: 'short' }) %></strong>
+                                    </div>
+                                    <div class="reservation-time">
+                                        <%= new Date(reservation.start_time).toLocaleTimeString('fr-CA', { hour: '2-digit', minute: '2-digit' }) %> -
+                                        <%= new Date(reservation.end_time).toLocaleTimeString('fr-CA', { hour: '2-digit', minute: '2-digit' }) %>
+                                    </div>
+                                    <div class="reservation-user"><i class="fas fa-user"></i> <%= reservation.user_name %></div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <div class="no-reservations"><i class="fas fa-calendar-times"></i><p>Aucune réservation à venir.</p></div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% endblock %>

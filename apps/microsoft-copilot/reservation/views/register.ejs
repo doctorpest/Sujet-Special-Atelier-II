@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription</title>
+</head>
+<body>
+  <% include partials_header %>
+
+  <h1>Inscription</h1>
+  <form action="/register" method="post">
+    <div>
+      <label>Nom :</label>
+      <input type="text" name="name" required>
+    </div>
+    <div>
+      <label>Email :</label>
+      <input type="email" name="email" required>
+    </div>
+    <div>
+      <label>Mot de passe :</label>
+      <input type="password" name="password" required>
+    </div>
+    <div>
+      <label>Confirmer le mot de passe :</label>
+      <input type="password" name="password_confirm" required>
+    </div>
+    <button type="submit">Créer le compte</button>
+  </form>
+</body>
+</html>

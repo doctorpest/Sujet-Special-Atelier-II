@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Réservation Salles</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f9; }
+        nav { background: #333; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
+        nav a { color: white; margin-right: 15px; text-decoration: none; font-weight: bold; }
+        .card { background: white; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .flex { display: flex; gap: 20px; flex-wrap: wrap; }
+        form { background: white; padding: 15px; border-radius: 5px; }
+        input, select, button { padding: 8px; margin: 5px 0; display: block; width: 100%; max-width: 300px; box-sizing: border-box; }
+        button { background: #007BFF; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        .btn-danger { background: #DC3545; }
+        .btn-danger:hover { background: #bd2130; }
+        .profile-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; }
+    </style>
+</head>
+<body>
+<nav>
+    <% if (user) { %>
+        <a href="/">Salles disponibles</a>
+        <a href="/bookings">Mes Réservations</a>
+        <a href="/profile">Mon Profil (<%= user.username %>)</a>
+        <a href="/logout" style="float: right; color: #ff6b6b;">Déconnexion</a>
+    <% } else { %>
+        <a href="/login">Connexion</a>
+        <a href="/register">Inscription</a>
+    <% } %>
+</nav>

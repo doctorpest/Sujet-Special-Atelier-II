@@ -1,0 +1,54 @@
+<%- include('partials/header') %>
+<h2>Rechercher une salle de réunion</h2>
+
+<form method="GET" action="/" style="margin-bottom: 30px; border: 1px solid #ddd;">
+    <div class="flex">
+        <div>
+            <label>Nom de la salle</label>
+            <input type="text" name="name" value="<%= query.name || '' %>">
+        </div>
+        <div>
+            <label>Capacité minimale</label>
+            <input type="number" name="min_capacity" value="<%= query.min_capacity || '' %>">
+        </div>
+        <div>
+            <label>Date recherchée</label>
+            <input type="date" name="date" value="<%= query.date || '' %>">
+        </div>
+        <div>
+            <label>Heure de début</label>
+            <input type="time" name="start_time" value="<%= query.start_time || '' %>">
+        </div>
+        <div>
+            <label>Heure de fin</label>
+            <input type="time" name="end_time" value="<%= query.end_time || '' %>">
+        </div>
+    </div>
+    <button type="submit" style="margin-top: 10px;">Filtrer les résultats</button>
+</form>
+
+<h2>Salles disponibles</h2>
+<div class="flex">
+    <% rooms.forEach(room => { %>
+        <div class="card" style="width: 300px;">
+            <h3><%= room.name %></h3>
+            <p><strong>Capacité :</strong> <%= room.capacity %> personnes</p>
+            <p><strong>Équipements :</strong> <%= room.equipment %></p>
+            
+            <hr>
+            <h4>Réserver cette salle :</h4>
+            <form action="/bookings" method="POST">
+                <input type="hidden" name="room_id" value="<%= room.id %>">
+                <label>Date</label>
+                <input type="date" name="booking_date" value="<%= query.date || '' %>" required>
+                <label>Début</label>
+                <input type="time" name="start_time" value="<%= query.start_time || '' %>" required>
+                <label>Fin</label>
+                <input type="time" name="end_time" value="<%= query.end_time || '' %>" required>
+                <button type="submit">Valider la réservation</button>
+            </form>
+        </div>
+    <% }) %>
+</div>
+</body>
+</html>

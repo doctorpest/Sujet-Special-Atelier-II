@@ -1,0 +1,123 @@
+<%- include('layout', { active: 'reservations' }) %>
+
+<% block('body') %>
+<div class="page-header">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Accueil</a><i class="fas fa-chevron-right"></i>
+            <a href="/reservations">Mes réservations</a><i class="fas fa-chevron-right"></i>
+            <span>Nouvelle réservation</span>
+        </div>
+        <h1><i class="fas fa-calendar-plus"></i> Nouvelle réservation</h1>
+    </div>
+</div>
+
+<div class="reservation-form-section">
+    <div class="container">
+        <form action="/reservations" method="POST" class="reservation-form-large">
+            <div class="form-grid">
+                <div class="form-column">
+                    <h2><i class="fas fa-door-open"></i> Sélection de la salle</h2>
+                    <div class="form-group">
+                        <label for="roomId">Salle *</label>
+                        <select id="roomId" name="roomId" required>
+                            <option value="">Sélectionnez une salle</option>
+                            <% rooms.forEach(room => { %>
+                                <option value="<%= room.id %>" <%= oldInput && oldInput.roomId == room.id ? 'selected' : '' %>
+                                    data-capacity="<%= room.capacity %>" data-equipment="<%= room.equipment || '' %>">
+                                    <%= room.name %> (Capacité: <%= room.capacity %> personnes)
+                                </option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="room-preview" id="roomPreview">
+                        <p>Sélectionnez une salle pour voir les détails</p>
+                    </div>
+                </div>
+                <div class="form-column">
+                    <h2><i class="fas fa-calendar-alt"></i> Détails de la réservation</h2>
+                    <div class="form-group">
+                        <label for="date">Date *</label>
+                        <input type="date" id="date" name="date" min="<%= new Date().toISOString().split('T')[0] %>" value="<%= oldInput ? oldInput.date : '' %>" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startTime">Heure de début *</label>
+                            <select id="startTime" name="startTime" required>
+                                <option value="">Sélectionnez</option>
+                                <% for (let h = 8; h <= 18; h++) { %>
+                                    <option value="<%= h.toString().padStart(2, '0') %>:00" <%= oldInput && oldInput.startTime === `${h.toString().padStart(2, '0')}:00` ? 'selected' : '' %>>
+                                        <%= h.toString().padStart(2, '0') %>:00
+                                    </option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">Heure de fin *</label>
+                            <select id="endTime" name="endTime" required>
+                                <option value="">Sélectionnez</option>
+                                <% for (let h = 9; h <= 19; h++) { %>
+                                    <option value="<%= h.toString().padStart(2, '0') %>:00" <%= oldInput && oldInput.endTime === `${h.toString().padStart(2, '0')}:00` ? 'selected' : '' %>>
+                                        <%= h.toString().padStart(2, '0') %>:00
+                                    </option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Durée estimée</label>
+                        <p id="durationDisplay">Sélectionnez les heures pour voir la durée</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <a href="/reservations" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Retour</a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-calendar-plus"></i> Créer la réservation</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const roomSelect = document.getElementById('roomId');
+const roomPreview = document.getElementById('roomPreview');
+roomSelect.addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    if (selectedOption.value) {
+        const capacity = selectedOption.getAttribute('data-capacity');
+        const equipment = selectedOption.getAttribute('data-equipment');
+        roomPreview.innerHTML = `
+            <div class="room-preview-content">
+                <h4>${this.options[this.selectedIndex].text}</h4>
+                <p><strong>Capacité:</strong> ${capacity} personnes</p>
+                ${equipment ? `<p><strong>Équipement:</strong> ${equipment}</p>` : ''}
+            </div>
+        `;
+    } else {
+        roomPreview.innerHTML = '<p>Sélectionnez une salle pour voir les détails</p>';
+    }
+});
+
+const startTimeSelect = document.getElementById('startTime');
+const endTimeSelect = document.getElementById('endTime');
+const durationDisplay = document.getElementById('durationDisplay');
+
+function updateDuration() {
+    const startTime = startTimeSelect.value;
+    const endTime = endTimeSelect.value;
+    if (startTime && endTime) {
+        const startHour = parseInt(startTime.split(':')[0]);
+        const endHour = parseInt(endTime.split(':')[0]);
+        const duration = endHour - startHour;
+        durationDisplay.textContent = duration > 0 ? `${duration} heure${duration > 1 ? 's' : ''}` : 'Heure de fin doit être après l\'heure de début';
+    } else {
+        durationDisplay.textContent = 'Sélectionnez les heures pour voir la durée';
+    }
+}
+
+startTimeSelect.addEventListener('change', updateDuration);
+endTimeSelect.addEventListener('change', updateDuration);
+if (roomSelect.value) roomSelect.dispatchEvent(new Event('change'));
+updateDuration();
+</script>
+<% endblock %>

@@ -1,0 +1,68 @@
+# Boutique en ligne PHP/MySQL (sans framework)
+
+## Prérequis
+
+- PHP 7.4+ (ou version supérieure)
+- MySQL/MariaDB
+- Serveur web (Apache, Nginx, etc.)
+- Extension PDO MySQL activée
+
+## Installation
+
+1. **Cloner ou copier le projet** dans votre dossier web, par exemple :
+
+   - Sous XAMPP : `C:\xampp\htdocs\ecommerce`
+   - Sous WAMP : `C:\wamp64\www\ecommerce`
+
+2. **Créer la base de données** :
+
+   - Importer le fichier `db.sql` dans votre serveur MySQL (via phpMyAdmin ou en ligne de commande).
+
+3. **Configurer la connexion** :
+
+   - Ouvrir `config.php` et adapter :
+     - `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`
+     - `BASE_URL` (par exemple `http://localhost/ecommerce`)
+
+4. **Dossier d’upload** :
+
+   - Vérifier que le dossier `uploads/` existe à la racine du projet.
+   - Lui donner les droits d’écriture (sur Linux : `chmod 777 uploads` en local).
+
+5. **Compte administrateur** :
+
+   - Par défaut, aucun compte admin n’est créé.
+   - Créez un compte via la page `register.php`.
+   - Dans la table `users`, passez le champ `is_admin` à `1` pour ce compte.
+
+6. **Accès à l’application** :
+
+   - Catalogue : `http://localhost/ecommerce/index.php`
+   - Recherche : `http://localhost/ecommerce/search.php`
+   - Panier : `http://localhost/ecommerce/cart.php`
+   - Connexion / inscription : `login.php`, `register.php`
+   - Espace admin :
+     - Connexion admin : `admin/admin_login.php`
+     - Dashboard : `admin/dashboard.php`
+     - Gestion produits : `admin/products.php`
+
+## Fonctionnalités
+
+- Catalogue de produits avec catégories, prix, stock, image.
+- Recherche par nom + filtres catégorie/prix.
+- Création de compte client, connexion/déconnexion.
+- Panier d’achat persistant en session.
+- Passage de commande avec adresse de livraison et formulaire de carte **simulé** (aucun paiement réel).
+- Historique des commandes côté client.
+- Espace administrateur :
+  - Ajout / modification / suppression de produits.
+  - Téléversement d’images produits.
+
+## Notes
+
+- Ce projet est volontairement simple, pensé comme base pédagogique.
+- Pour un usage en production, il faudrait ajouter :
+  - Validation plus poussée des formulaires.
+  - Protection CSRF.
+  - Gestion fine des erreurs et logs.
+  - Sécurisation avancée des uploads (types MIME, taille, etc.).

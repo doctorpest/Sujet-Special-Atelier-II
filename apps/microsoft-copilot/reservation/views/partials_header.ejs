@@ -1,0 +1,24 @@
+<header>
+    <nav>
+      <a href="/">Accueil</a>
+      <a href="/rooms">Salles</a>
+      <% if (currentUser) { %>
+        <a href="/reservations">Mes réservations</a>
+        <a href="/profile">Mon profil</a>
+        <form action="/logout" method="post" style="display:inline;">
+          <button type="submit">Déconnexion (<%= currentUser.name %>)</button>
+        </form>
+      <% } else { %>
+        <a href="/login">Connexion</a>
+        <a href="/register">Inscription</a>
+      <% } %>
+    </nav>
+    <% if (error) { %>
+      <div style="color:red;"><%= error %></div>
+    <% } %>
+    <% if (success) { %>
+      <div style="color:green;"><%= success %></div>
+    <% } %>
+    <hr>
+  </header>
+  

@@ -1,0 +1,21 @@
+<%- layout('layout') %>
+<h2>Profil</h2>
+<div class="row">
+  <div class="col-md-4 text-center">
+    <% if (user.profile_photo) { %>
+      <img src="<%= user.profile_photo %>" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+    <% } else { %>
+      <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 150px; height: 150px;">
+        <span class="text-white">?</span>
+      </div>
+    <% } %>
+    <form method="POST" action="/profile/photo" enctype="multipart/form-data" class="mt-3">
+      <input type="file" name="photo" class="form-control mb-2" accept="image/*">
+      <button type="submit" class="btn btn-success btn-sm">Téléverser</button>
+    </form>
+  </div>
+  <div class="col-md-8">
+    <p><strong>Nom d'utilisateur :</strong> <%= user.username %></p>
+    <p><strong>Email :</strong> <%= user.email %></p>
+  </div>
+</div>

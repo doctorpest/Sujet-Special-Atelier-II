@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Inscription — UserVault{% endblock %}
+{% block content %}
+<div class="card card-sm">
+  <h1 class="card-title">Créer un compte</h1>
+  <p class="card-subtitle">Remplissez le formulaire ci-dessous.</p>
+
+  <form method="post">
+    <div class="form-group">
+      <label for="full_name">Nom complet</label>
+      <input type="text" id="full_name" name="full_name"
+             value="{{ full_name or '' }}" required autofocus placeholder="Jean Dupont">
+    </div>
+    <div class="form-group">
+      <label for="email">Adresse email</label>
+      <input type="email" id="email" name="email"
+             value="{{ email or '' }}" required placeholder="vous@exemple.com">
+    </div>
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" name="password" required
+             placeholder="Min. 8 caractères" minlength="8">
+    </div>
+    <div class="form-group">
+      <label for="confirm_password">Confirmer le mot de passe</label>
+      <input type="password" id="confirm_password" name="confirm_password" required placeholder="••••••••">
+    </div>
+    <div class="form-group">
+      <label for="role">Rôle</label>
+      <select id="role" name="role">
+        <option value="user">Utilisateur</option>
+        <option value="moderator">Modérateur</option>
+        <option value="admin">Administrateur</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Créer mon compte</button>
+  </form>
+
+  <hr class="divider">
+  <p class="text-center text-muted" style="font-size:.9rem;">
+    Déjà inscrit ? <a href="{{ url_for('login') }}" class="link">Se connecter</a>
+  </p>
+</div>
+{% endblock %}

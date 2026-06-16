@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes réservations — MeetRoom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%- include('../partials/nav', { active: 'reservations' }) %>
+<%- include('../partials/flash') %>
+<main>
+  <div class="page-header">
+    <div class="page-header-text">
+      <h1>Mes réservations</h1>
+      <p><%= upcoming.length %> à venir · <%= past.length %> passée<%= past.length > 1 ? 's' : '' %></p>
+    </div>
+    <a href="/reservations/new" class="btn btn-primary">＋ Nouvelle réservation</a>
+  </div>
+
+  <!-- Upcoming -->
+  <h2 style="font-family:'Cormorant Garamond',serif; font-size:22px; margin-bottom:16px; color:var(--ink);">À venir</h2>
+  <% if (upcoming.length === 0) { %>
+    <div class="card" style="padding:40px; text-align:center; margin-bottom:32px;">
+      <div style="font-size:40px; margin-bottom:12px;">📅</div>
+      <p style="color:var(--muted);">Aucune réservation à venir.</p>
+      <a href="/reservations/new" class="btn btn-primary" style="margin-top:16px;">Réserver une salle</a>
+    </div>
+  <% } else { %>
+    <div class="grid-2" style="margin-bottom:40px;">
+      <% upcoming.forEach(r => { %>
+        <div class="card res-card">
+          <div class="res-img">
+            <img src="<%= r.room_photo %>" alt="<%= r.room_name %>">
+          </div>
+          <div class="res-body">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:6px;">
+              <h3 class="res-title"><%= r.title %></h3>
+              <span class="badge badge-green">✓ Confirmé</span>
+            </div>
+            <div class="res-room">🏢 <%= r.room_name %></div>
+            <div class="res-time">
+              <span>📅 <%= new Date(r.date + 'T00:00:00').toLocaleDateString('fr-FR', {weekday:'short', day:'numeric', month:'short', year:'numeric'}) %></span>
+              <span>🕐 <%= r.start_time %> – <%= r.end_time %></span>
+              <span>👥 <%= r.attendees %> participant<%= r.attendees > 1 ? 's' : '' %></span>
+            </div>
+            <% if (r.notes) { %><p class="res-notes"><%= r.notes %></p><% } %>
+            <div class="res-actions">
+              <a href="/reservations/<%= r.id %>/edit" class="btn btn-outline btn-sm">✏️ Modifier</a>
+              <form method="POST" action="/reservations/<%= r.id %>?_method=DELETE" onsubmit="return confirm('Annuler cette réservation ?')">
+                <button type="submit" class="btn btn-danger btn-sm">✕ Annuler</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <!-- Past -->
+  <% if (past.length > 0) { %>
+    <h2 style="font-family:'Cormorant Garamond',serif; font-size:22px; margin-bottom:16px; color:var(--muted);">Historique</h2>
+    <div class="grid-2">
+      <% past.forEach(r => { %>
+        <div class="card res-card" style="opacity:.7;">
+          <div class="res-img" style="filter:grayscale(30%);">
+            <img src="<%= r.room_photo %>" alt="<%= r.room_name %>">
+          </div>
+          <div class="res-body">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:6px;">
+              <h3 class="res-title"><%= r.title %></h3>
+              <% if (r.status === 'cancelled') { %>
+                <span class="badge badge-red">✕ Annulé</span>
+              <% } else { %>
+                <span class="badge badge-muted">✓ Passé</span>
+              <% } %>
+            </div>
+            <div class="res-room">🏢 <%= r.room_name %></div>
+            <div class="res-time">
+              <span>📅 <%= new Date(r.date + 'T00:00:00').toLocaleDateString('fr-FR', {weekday:'short', day:'numeric', month:'short', year:'numeric'}) %></span>
+              <span>🕐 <%= r.start_time %> – <%= r.end_time %></span>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</main>
+<footer>© <%= new Date().getFullYear() %> MeetRoom</footer>
+
+<style>
+  .res-card { display:flex; overflow:hidden; transition:box-shadow .2s; }
+  .res-card:hover { box-shadow:0 6px 24px rgba(18,16,14,.1); }
+  .res-img { width:140px; flex-shrink:0; }
+  .res-img img { width:100%; height:100%; object-fit:cover; }
+  .res-body { padding:16px 20px; flex:1; display:flex; flex-direction:column; }
+  .res-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600; }
+  .res-room { color:var(--muted); font-size:13px; margin:4px 0 10px; }
+  .res-time { display:flex; flex-direction:column; gap:3px; font-size:13px; color:var(--ink); }
+  .res-notes { color:var(--muted); font-size:12px; margin-top:10px; font-style:italic; }
+  .res-actions { display:flex; gap:8px; margin-top:auto; padding-top:14px; }
+</style>
+</body>
+</html>

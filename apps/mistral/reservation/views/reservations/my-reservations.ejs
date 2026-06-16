@@ -1,0 +1,89 @@
+<%- include('layout', { active: 'reservations' }) %>
+
+<% block('body') %>
+<div class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-calendar-check"></i> Mes réservations</h1>
+        <p>Gérez toutes vos réservations de salles</p>
+    </div>
+</div>
+
+<div class="reservations-section">
+    <div class="container">
+        <div class="reservations-header">
+            <a href="/reservations/new" class="btn btn-primary"><i class="fas fa-plus"></i> Nouvelle réservation</a>
+        </div>
+        <% if (reservations.length > 0) { %>
+            <div class="reservations-table-container">
+                <table class="reservations-table">
+                    <thead>
+                        <tr>
+                            <th>Salle</th>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Capacité</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% reservations.forEach(reservation => { %>
+                            <tr class="reservation-row <%= reservation.status %>">
+                                <td>
+                                    <div class="reservation-room">
+                                        <% if (reservation.photo_url) { %>
+                                            <img src="<%= reservation.photo_url %>" alt="<%= reservation.room_name %>">
+                                        <% } else { %>
+                                            <div class="room-placeholder-small"><i class="fas fa-door-closed"></i></div>
+                                        <% } %>
+                                        <div>
+                                            <strong><%= reservation.room_name %></strong>
+                                            <small><%= reservation.equipment || 'Aucun équipement' %></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <%= new Date(reservation.start_time).toLocaleDateString('fr-CA', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) %>
+                                </td>
+                                <td>
+                                    <%= new Date(reservation.start_time).toLocaleTimeString('fr-CA', { hour: '2-digit', minute: '2-digit' }) %> -
+                                    <%= new Date(reservation.end_time).toLocaleTimeString('fr-CA', { hour: '2-digit', minute: '2-digit' }) %>
+                                </td>
+                                <td><%= reservation.capacity %> pers.</td>
+                                <td>
+                                    <span class="status-badge <%= reservation.status %>">
+                                        <% if (reservation.status === 'confirmed') { %><i class="fas fa-check-circle"></i> Confirmé
+                                        <% } else if (reservation.status === 'cancelled') { %><i class="fas fa-times-circle"></i> Annulé
+                                        <% } else { %><i class="fas fa-question-circle"></i> <%= reservation.status %><% } %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="reservation-actions">
+                                        <a href="/reservations/<%= reservation.id %>/edit" class="action-btn edit-btn" title="Modifier"><i class="fas fa-edit"></i></a>
+                                        <form action="/reservations/<%= reservation.id %>/cancel" method="POST" onsubmit="return confirm('Annuler cette réservation ?')">
+                                            <button type="submit" class="action-btn delete-btn" title="Annuler"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="reservations-stats">
+                <div class="stat-item"><strong>Total:</strong> <%= reservations.length %> réservations</div>
+                <div class="stat-item"><strong>Confirmées:</strong> <%= reservations.filter(r => r.status === 'confirmed').length %></div>
+                <div class="stat-item"><strong>Annulées:</strong> <%= reservations.filter(r => r.status === 'cancelled').length %></div>
+            </div>
+        <% } else { %>
+            <div class="no-reservations">
+                <i class="fas fa-calendar-times"></i>
+                <h3>Vous n'avez aucune réservation</h3>
+                <p>Commencez par réserver une salle.</p>
+                <a href="/rooms" class="btn btn-primary"><i class="fas fa-door-open"></i> Parcourir les salles</a>
+                <a href="/reservations/new" class="btn btn-secondary"><i class="fas fa-calendar-plus"></i> Nouvelle réservation</a>
+            </div>
+        <% } %>
+    </div>
+</div>
+<% endblock %>

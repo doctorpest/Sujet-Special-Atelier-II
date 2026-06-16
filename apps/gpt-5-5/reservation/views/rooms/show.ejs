@@ -1,0 +1,11 @@
+<%- include('../layout_top') %>
+<article class="card details">
+  <img src="<%= room.photo %>" alt="<%= room.name %>">
+  <div>
+    <h1><%= room.name %></h1>
+    <p><strong>Capacité :</strong> <%= room.capacity %> personnes</p>
+    <p><strong>Équipement :</strong> <%= room.equipment %></p>
+    <% if (currentUser) { %><a class="button primary" href="/reservations/new?room_id=<%= room.id %>">Réserver cette salle</a><% } %>
+  </div>
+</article>
+<%- include('../layout_bottom') %>

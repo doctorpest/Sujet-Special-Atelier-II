@@ -1,0 +1,40 @@
+# Dépendances
+node_modules/
+
+# Environnement
+.env
+.env.local
+.env.*.local
+
+# Base de données
+*.db
+*.sqlite
+*.sqlite3
+meeting_rooms.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Fichiers de build
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Fichiers temporaires
+tmp/
+temp/
+*.tmp
+
+# Cache
+.cache/

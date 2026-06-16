@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Accueil{% endblock %}
+{% block content %}
+<div class="text-center">
+    <h1>Application de gestion d'utilisateurs</h1>
+    <p class="lead">Inscription, connexion, profil, administration et réinitialisation de mot de passe.</p>
+    {% if not current_user %}
+        <a href="{{ url_for('register') }}" class="btn btn-primary">Créer un compte</a>
+        <a href="{{ url_for('login') }}" class="btn btn-secondary">Se connecter</a>
+    {% else %}
+        <a href="{{ url_for('profile') }}" class="btn btn-primary">Voir mon profil</a>
+    {% endif %}
+</div>
+{% endblock %}

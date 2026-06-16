@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Mon Profil</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Nom complet :</strong></div>
+                    <div class="col-md-8">{{ user.full_name }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Email :</strong></div>
+                    <div class="col-md-8">{{ user.email }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Rôle :</strong></div>
+                    <div class="col-md-8">
+                        <span class="badge {% if user.role == 'admin' %}bg-danger{% else %}bg-primary{% endif %}">
+                            {{ user.role }}
+                        </span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Date d'inscription :</strong></div>
+                    <div class="col-md-8">{{ user.created_at }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Dernière mise à jour :</strong></div>
+                    <div class="col-md-8">{{ user.updated_at }}</div>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-secondary">Retour</a>
+                    <a href="/reset-password" class="btn btn-warning">Modifier le mot de passe</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

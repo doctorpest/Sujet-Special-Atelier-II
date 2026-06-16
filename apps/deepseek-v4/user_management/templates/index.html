@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - Gestion des Utilisateurs{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="display-4">Bienvenue sur l'application de gestion des utilisateurs</h1>
+    <p class="lead">Gérez vos utilisateurs en toute simplicité</p>
+    
+    {% if session.user_id %}
+        <div class="mt-4">
+            <p>Connecté en tant que <strong>{{ session.user_name }}</strong> ({{ session.user_role }})</p>
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Mon Profil</h5>
+                            <p class="card-text">Consultez vos informations personnelles</p>
+                            <a href="/profile" class="btn btn-primary">Voir mon profil</a>
+                        </div>
+                    </div>
+                </div>
+                {% if session.user_role == 'admin' %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Administration</h5>
+                            <p class="card-text">Gérez les utilisateurs de l'application</p>
+                            <a href="/admin" class="btn btn-warning">Panneau d'administration</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="mt-4">
+            <p>Connectez-vous ou créez un compte pour commencer</p>
+            <a href="/login" class="btn btn-primary me-2">Connexion</a>
+            <a href="/register" class="btn btn-success">Inscription</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

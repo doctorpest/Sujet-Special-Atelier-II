@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erreur <%= code %> — MeetRoom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<% if (user) { %><%- include('./partials/nav') %><% } %>
+<main style="text-align:center; padding:80px 24px;">
+  <div style="font-family:'Cormorant Garamond',serif; font-size:120px; font-weight:600; color:var(--border); line-height:1;"><%= code %></div>
+  <h2 style="font-family:'Cormorant Garamond',serif; font-size:28px; margin:16px 0 8px;"><%= message %></h2>
+  <p style="color:var(--muted);">La page que vous cherchez n'existe pas ou une erreur s'est produite.</p>
+  <a href="<%= user ? '/rooms' : '/login' %>" class="btn btn-primary" style="margin-top:24px;">Retour à l'accueil</a>
+</main>
+</body>
+</html>

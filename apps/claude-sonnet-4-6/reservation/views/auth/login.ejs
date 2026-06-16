@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — MeetRoom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <%- include('../partials/auth-styles') %>
+</head>
+<body class="auth-body">
+  <%- include('../partials/auth-bg') %>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>MeetRoom</h1>
+        <p>Plateforme de réservation</p>
+      </div>
+      <% if (error) { %>
+        <div class="auth-alert"><span>⚠</span> <%= error %></div>
+      <% } %>
+      <% if (success) { %>
+        <div class="auth-success"><span>✓</span> <%= success %></div>
+      <% } %>
+      <form method="POST" action="/login">
+        <div class="form-group">
+          <label class="form-label">Adresse email</label>
+          <input type="email" name="email" class="form-control" placeholder="vous@exemple.fr" required autofocus>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="auth-btn">Se connecter</button>
+      </form>
+      <p class="auth-link">Pas encore de compte ? <a href="/register">Créer un compte</a></p>
+    </div>
+  </div>
+</body>
+</html>

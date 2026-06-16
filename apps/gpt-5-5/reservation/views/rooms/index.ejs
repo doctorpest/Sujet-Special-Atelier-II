@@ -1,0 +1,32 @@
+<%- include('../layout_top') %>
+<section class="hero">
+  <div>
+    <h1>Salles de réunion disponibles</h1>
+    <p>Recherchez une salle par nom, capacité ou créneau libre.</p>
+  </div>
+  <% if (currentUser) { %><a class="button primary" href="/reservations/new">Nouvelle réservation</a><% } %>
+</section>
+<form class="search card" method="get" action="/rooms">
+  <label>Nom <input name="q" value="<%= query.q || '' %>" placeholder="Atlas"></label>
+  <label>Capacité min. <input type="number" min="1" name="capacity" value="<%= query.capacity || '' %>"></label>
+  <label>Début <input type="datetime-local" name="start" value="<%= query.start || '' %>"></label>
+  <label>Fin <input type="datetime-local" name="end" value="<%= query.end || '' %>"></label>
+  <button class="primary">Rechercher</button>
+  <a class="button" href="/rooms">Réinitialiser</a>
+</form>
+<div class="grid">
+  <% rooms.forEach(room => { %>
+    <article class="card room">
+      <img src="<%= room.photo %>" alt="<%= room.name %>">
+      <h2><%= room.name %></h2>
+      <p><strong>Capacité :</strong> <%= room.capacity %> personnes</p>
+      <p><strong>Équipement :</strong> <%= room.equipment %></p>
+      <div class="actions">
+        <a class="button" href="/rooms/<%= room.id %>">Détails</a>
+        <% if (currentUser) { %><a class="button primary" href="/reservations/new?room_id=<%= room.id %>">Réserver</a><% } %>
+      </div>
+    </article>
+  <% }) %>
+  <% if (!rooms.length) { %><p>Aucune salle ne correspond à votre recherche.</p><% } %>
+</div>
+<%- include('../layout_bottom') %>

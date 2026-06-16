@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}UserVault{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:     #0f0e0d;
+      --paper:   #faf8f5;
+      --cream:   #f0ece4;
+      --accent:  #c0392b;
+      --accent2: #e74c3c;
+      --muted:   #8a8178;
+      --border:  #ddd8cf;
+      --green:   #27ae60;
+      --blue:    #2980b9;
+      --gold:    #d4a017;
+      --radius:  4px;
+      --shadow:  0 2px 16px rgba(15,14,13,.08);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── Nav ── */
+    nav {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem;
+      letter-spacing: .02em;
+      color: var(--paper);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent2); }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links a {
+      color: rgba(250,248,245,.7);
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--paper); }
+    .nav-links a.admin-link { color: var(--gold); }
+    .nav-links a.admin-link:hover { color: #f0c030; }
+    .nav-pill {
+      background: var(--accent);
+      color: #fff !important;
+      padding: .3rem .9rem;
+      border-radius: 99px;
+      font-size: .8rem !important;
+    }
+    .nav-pill:hover { background: var(--accent2); }
+
+    /* ── Main ── */
+    main { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 3rem 1rem; }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 2.5rem;
+      width: 100%;
+    }
+    .card-sm { max-width: 440px; }
+    .card-md { max-width: 640px; }
+    .card-lg { max-width: 900px; }
+
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: .25rem;
+      line-height: 1.2;
+    }
+    .card-subtitle {
+      color: var(--muted);
+      font-size: .9rem;
+      margin-bottom: 2rem;
+    }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+    /* ── Forms ── */
+    .form-group { margin-bottom: 1.25rem; }
+    label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .4rem;
+    }
+    input[type=text], input[type=email], input[type=password], select {
+      width: 100%;
+      padding: .65rem .9rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: .95rem;
+      background: var(--paper);
+      color: var(--ink);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+    }
+    input:focus, select:focus {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px rgba(15,14,13,.06);
+    }
+    select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8178' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .9rem center; padding-right: 2.2rem; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+      padding: .65rem 1.4rem;
+      border: none; border-radius: var(--radius);
+      font-family: inherit; font-size: .9rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+      letter-spacing: .02em;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary { background: var(--ink); color: var(--paper); width: 100%; }
+    .btn-primary:hover { opacity: .85; }
+    .btn-accent { background: var(--accent); color: #fff; }
+    .btn-accent:hover { background: var(--accent2); }
+    .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
+    .btn-ghost:hover { border-color: var(--ink); }
+    .btn-sm { padding: .35rem .8rem; font-size: .8rem; }
+    .btn-danger { background: #fdecea; color: var(--accent); border: 1px solid #f5c6c3; }
+    .btn-danger:hover { background: var(--accent); color: #fff; }
+    .btn-success { background: #eaf7ee; color: var(--green); border: 1px solid #b7e4c5; }
+    .btn-success:hover { background: var(--green); color: #fff; }
+
+    /* ── Flash messages ── */
+    .flashes { width: 100%; max-width: 900px; margin: 1rem auto 0; padding: 0 1rem; }
+    .flash {
+      padding: .8rem 1rem;
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      font-size: .9rem;
+      border-left: 3px solid;
+      display: flex; align-items: flex-start; gap: .6rem;
+    }
+    .flash-success { background: #eaf7ee; border-color: var(--green); color: #1a6635; }
+    .flash-danger  { background: #fdecea; border-color: var(--accent); color: #8b1a1a; }
+    .flash-warning { background: #fff8e1; border-color: var(--gold); color: #7a5c00; }
+    .flash-info    { background: #e8f4fd; border-color: var(--blue); color: #1a4a6b; }
+    .flash-info a  { color: var(--blue); word-break: break-all; }
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-block; padding: .2rem .6rem; border-radius: 99px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .badge-admin     { background: #fff3cd; color: #856404; }
+    .badge-moderator { background: #cfe2ff; color: #084298; }
+    .badge-user      { background: var(--cream); color: var(--muted); }
+
+    /* ── Table ── */
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left; font-size: .75rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+      padding: .6rem .9rem; border-bottom: 2px solid var(--border);
+    }
+    td { padding: .75rem .9rem; border-bottom: 1px solid var(--cream); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--paper); }
+
+    /* ── Profile card ── */
+    .profile-header {
+      display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;
+    }
+    .avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--ink); color: var(--paper);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif; font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+    .profile-meta { flex: 1; }
+    .profile-name {
+      font-family: 'DM Serif Display', serif; font-size: 1.5rem; line-height: 1.2;
+    }
+    .profile-email { color: var(--muted); font-size: .9rem; margin-top: .15rem; }
+
+    .info-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .info-item label { margin-bottom: .2rem; }
+    .info-value { font-size: 1rem; font-weight: 500; }
+
+    /* ── Misc ── */
+    .text-center { text-align: center; }
+    .text-muted { color: var(--muted); }
+    .mt-1 { margin-top: .5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .flex-between { display: flex; align-items: center; justify-content: space-between; }
+    .flex-gap { display: flex; gap: .5rem; align-items: center; }
+    .page-header { margin-bottom: 2rem; }
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif; font-size: 2rem; line-height: 1.2;
+    }
+    .page-header p { color: var(--muted); margin-top: .3rem; }
+    a.link { color: var(--accent); text-decoration: none; font-weight: 500; }
+    a.link:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center; padding: 1.5rem;
+      color: var(--muted); font-size: .8rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<nav>
+  <a href="{{ url_for('index') }}" class="nav-brand">User<span>Vault</span></a>
+  <div class="nav-links">
+    {% if current_user %}
+      <a href="{{ url_for('profile') }}">Mon profil</a>
+      {% if current_user['role'] == 'admin' %}
+        <a href="{{ url_for('admin_users') }}" class="admin-link">⚙ Admin</a>
+      {% endif %}
+      <a href="{{ url_for('logout') }}" class="nav-pill">Déconnexion</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Connexion</a>
+      <a href="{{ url_for('register') }}" class="nav-pill">S'inscrire</a>
+    {% endif %}
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flashes">
+      {% for cat, msg in messages %}
+        <div class="flash flash-{{ cat }}">
+          <span>{{ msg | safe }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer>
+  &copy; {{ now.year if now else '2025' }} UserVault &mdash; Gestion d'utilisateurs Flask
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Gestion utilisateurs{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: #1f2937;
+            padding: 14px 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 32px auto;
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        form {
+            display: grid;
+            gap: 12px;
+            max-width: 420px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        button.danger {
+            background: #dc2626;
+        }
+
+        button.secondary {
+            background: #4b5563;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .flash {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .flash.success { background: #dcfce7; }
+        .flash.danger { background: #fee2e2; }
+        .flash.warning { background: #fef3c7; }
+        .flash.info { background: #dbeafe; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .inline-form {
+            display: inline-flex;
+            gap: 8px;
+            max-width: none;
+        }
+
+        .muted {
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('index') }}">Accueil</a>
+
+        {% if current_user %}
+            <a href="{{ url_for('profile') }}">Profil</a>
+
+            {% if current_user.role == 'admin' %}
+                <a href="{{ url_for('admin_users') }}">Administration</a>
+            {% endif %}
+
+            <a href="{{ url_for('logout') }}">Déconnexion</a>
+        {% else %}
+            <a href="{{ url_for('register') }}">Inscription</a>
+            <a href="{{ url_for('login') }}">Connexion</a>
+        {% endif %}
+    </nav>
+
+    <main class="container">
+        {% if error_message %}
+            <h1>{{ error_message }}</h1>
+            <p><a href="{{ url_for('index') }}">Retour à l'accueil</a></p>
+        {% else %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        {% endif %}
+    </main>
+</body>
+</html>

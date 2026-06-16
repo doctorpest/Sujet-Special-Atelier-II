@@ -1,0 +1,10 @@
+<%- include('layout') %>
+
+<% block('body') %>
+<div class="error-page">
+    <i class="fas fa-exclamation-triangle"></i>
+    <h1><%= message || 'Erreur' %></h1>
+    <p>Désolé, quelque chose s'est mal passé.</p>
+    <a href="/" class="btn btn-primary"><i class="fas fa-home"></i> Retour à l'accueil</a>
+</div>
+<% endblock %>

@@ -1,0 +1,19 @@
+<nav>
+  <div class="nav-inner">
+    <a href="/rooms" class="nav-brand">MeetRoom <span>Pro</span></a>
+    <a href="/rooms" class="nav-link <%= typeof active !== 'undefined' && active === 'rooms' ? 'active' : '' %>">🏢 Salles</a>
+    <a href="/reservations" class="nav-link <%= typeof active !== 'undefined' && active === 'reservations' ? 'active' : '' %>">📅 Mes réservations</a>
+    <a href="/reservations/new" class="nav-link">＋ Réserver</a>
+    <a href="/profile" class="nav-link <%= typeof active !== 'undefined' && active === 'profile' ? 'active' : '' %>" style="gap:10px;">
+      <% if (user.avatar) { %>
+        <img src="<%= user.avatar %>" class="nav-avatar" alt="">
+      <% } else { %>
+        <div class="nav-avatar-placeholder"><%= user.name.charAt(0).toUpperCase() %></div>
+      <% } %>
+      <%= user.name.split(' ')[0] %>
+    </a>
+    <form method="POST" action="/logout" style="margin-left:4px;">
+      <button type="submit" class="nav-btn">Déconnexion</button>
+    </form>
+  </div>
+</nav>

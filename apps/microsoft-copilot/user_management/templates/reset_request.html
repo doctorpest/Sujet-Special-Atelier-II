@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Réinitialisation mot de passe{% endblock %}
+{% block content %}
+<h2>Réinitialiser le mot de passe</h2>
+<p>Entrez votre adresse email, nous vous enverrons un lien de réinitialisation.</p>
+<form method="post" class="mt-3">
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Envoyer le lien</button>
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Plateforme de réservation</title>
+</head>
+<body>
+  <% include partials_header %>
+
+  <h1>Bienvenue sur la plateforme de réservation de salles</h1>
+
+  <h2>Salles disponibles</h2>
+  <ul>
+    <% rooms.forEach(room => { %>
+      <li>
+        <strong><%= room.name %></strong> — capacité : <%= room.capacity %><br>
+        <em><%= room.equipment %></em><br>
+        <% if (room.photo) { %>
+          <img src="<%= room.photo %>" alt="<%= room.name %>" style="max-width:200px;">
+        <% } %><br>
+        <% if (currentUser) { %>
+          <a href="/reservations/new?room_id=<%= room.id %>">Réserver</a>
+        <% } else { %>
+          <a href="/login">Connectez-vous pour réserver</a>
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

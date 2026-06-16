@@ -1,0 +1,21 @@
+{
+  "name": "meetroom",
+  "version": "1.0.0",
+  "description": "Plateforme de réservation de salles de réunion",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "init": "node init-db.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "ejs": "^3.1.10",
+    "express": "^4.18.3",
+    "express-session": "^1.18.0",
+    "method-override": "^3.0.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.12",
+    "session-file-store": "^1.5.0",
+    "sql.js": "^1.12.0"
+  }
+}

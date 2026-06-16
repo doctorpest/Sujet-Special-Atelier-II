@@ -1,0 +1,23 @@
+<%- layout('layout') %>
+<h2>Modifier la réservation – <%= reservation.roomName %></h2>
+<% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+<form method="POST" action="/reservations/<%= reservation.id %>">
+  <input type="hidden" name="room_id" value="<%= reservation.room_id %>">
+  <div class="mb-3">
+    <label>Date</label>
+    <input type="date" name="date" class="form-control" 
+           value="<%= new Date(reservation.start_time).toISOString().split('T')[0] %>" required>
+  </div>
+  <div class="mb-3">
+    <label>Heure début</label>
+    <input type="time" name="start_time" class="form-control" 
+           value="<%= new Date(reservation.start_time).toTimeString().slice(0,5) %>" required>
+  </div>
+  <div class="mb-3">
+    <label>Heure fin</label>
+    <input type="time" name="end_time" class="form-control" 
+           value="<%= new Date(reservation.end_time).toTimeString().slice(0,5) %>" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Enregistrer</button>
+  <a href="/reservations" class="btn btn-secondary">Annuler</a>
+</form>

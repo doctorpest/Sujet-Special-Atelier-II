@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Administration{% endblock %}
+{% block content %}
+    <h2>Gestion des utilisateurs</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Nom complet</th>
+                <th>Rôle</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('update_role', user_id=user.id) }}" class="d-inline">
+                            <select name="role" class="form-select form-select-sm">
+                                <option value="user" {% if user.role == 'user' %}selected{% endif %}>Utilisateur</option>
+                                <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Administrateur</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-warning">Modifier</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('delete_user', user_id=user.id) }}" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

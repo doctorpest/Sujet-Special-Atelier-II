@@ -1,0 +1,49 @@
+<%- include('layout', { active: 'register' }) %>
+
+<% block('body') %>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2><i class="fas fa-user-plus"></i> Inscription</h2>
+            <p>Créez un compte pour commencer à réserver</p>
+        </div>
+        <form action="/register" method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="name"><i class="fas fa-user"></i> Nom complet</label>
+                <input type="text" id="name" name="name" value="<%= oldInput ? oldInput.name : '' %>" required autocomplete="name">
+            </div>
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope"></i> Adresse email</label>
+                <input type="email" id="email" name="email" value="<%= oldInput ? oldInput.email : '' %>" required autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Mot de passe</label>
+                <div class="password-input">
+                    <input type="password" id="password" name="password" required autocomplete="new-password" minlength="6">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('password')"><i class="fas fa-eye"></i></button>
+                </div>
+                <small class="password-hint">Minimum 6 caractères</small>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword"><i class="fas fa-lock"></i> Confirmer le mot de passe</label>
+                <div class="password-input">
+                    <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('confirmPassword')"><i class="fas fa-eye"></i></button>
+                </div>
+            </div>
+            <label class="checkbox-label terms">
+                <input type="checkbox" required>
+                <span class="checkmark"></span>
+                J'accepte les <a href="#">conditions d'utilisation</a>
+            </label>
+            <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-user-plus"></i> S'inscrire</button>
+        </form>
+        <div class="auth-footer">
+            <p>Vous avez déjà un compte ? <a href="/login">Se connecter</a></p>
+        </div>
+    </div>
+    <div class="auth-image">
+        <img src="/images/register-illustration.svg" alt="Illustration d'inscription">
+    </div>
+</div>
+<% endblock %>

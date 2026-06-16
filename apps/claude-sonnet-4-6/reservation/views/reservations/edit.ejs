@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modifier la réservation — MeetRoom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%- include('../partials/nav', { active: 'reservations' }) %>
+<%- include('../partials/flash') %>
+<main>
+  <a href="/reservations" class="btn btn-outline btn-sm" style="margin-bottom:24px;">← Mes réservations</a>
+
+  <div style="max-width:680px;">
+    <div class="page-header">
+      <div class="page-header-text">
+        <h1>Modifier la réservation</h1>
+        <p>Salle : <strong><%= reservation.room_name %></strong></p>
+      </div>
+    </div>
+
+    <div class="card" style="padding:32px;">
+      <form method="POST" action="/reservations/<%= reservation.id %>?_method=PUT">
+
+        <div class="form-group">
+          <label class="form-label">Salle (non modifiable)</label>
+          <input type="text" class="form-control" value="<%= reservation.room_name %> (<%= reservation.room_capacity %> pers.)" disabled style="background:var(--cream); color:var(--muted);">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Titre de la réunion *</label>
+          <input type="text" name="title" class="form-control" value="<%= reservation.title %>" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+          <div class="form-group">
+            <label class="form-label">Date *</label>
+            <input type="date" name="date" class="form-control" required
+              value="<%= reservation.date %>"
+              min="<%= new Date().toISOString().split('T')[0] %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Début *</label>
+            <input type="time" name="start_time" class="form-control" required value="<%= reservation.start_time %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fin *</label>
+            <input type="time" name="end_time" class="form-control" required value="<%= reservation.end_time %>">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Nombre de participants</label>
+          <input type="number" name="attendees" class="form-control" min="1" max="<%= reservation.room_capacity %>" value="<%= reservation.attendees %>">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Notes</label>
+          <textarea name="notes" class="form-control"><%= reservation.notes || '' %></textarea>
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:8px;">
+          <button type="submit" class="btn btn-primary" style="padding:13px 28px;">Enregistrer les modifications</button>
+          <a href="/reservations" class="btn btn-outline">Annuler</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+<footer>© <%= new Date().getFullYear() %> MeetRoom</footer>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<%- layout('layout') %>
+<h2>Recherche de salles</h2>
+<form method="GET" action="/rooms" class="row g-3 mb-4">
+  <div class="col-md-3"><input name="name" placeholder="Nom" class="form-control" value="<%= query.name || '' %>"></div>
+  <div class="col-md-2"><input name="min_capacity" type="number" placeholder="Capacité min." class="form-control" value="<%= query.min_capacity || '' %>"></div>
+  <div class="col-md-2"><input name="date" type="date" class="form-control" value="<%= query.date || '' %>"></div>
+  <div class="col-md-2"><input name="start_time" type="time" class="form-control" value="<%= query.start_time || '' %>"></div>
+  <div class="col-md-2"><input name="end_time" type="time" class="form-control" value="<%= query.end_time || '' %>"></div>
+  <div class="col-md-1"><button type="submit" class="btn btn-outline-primary w-100">🔍</button></div>
+</form>
+
+<% if (rooms.length === 0) { %>
+  <div class="alert alert-info">Aucune salle trouvée.</div>
+<% } else { %>
+  <div class="row">
+    <% rooms.forEach(room => { %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <% if (room.photo) { %>
+            <img src="<%= room.photo %>" class="card-img-top" alt="<%= room.name %>">
+          <% } else { %>
+            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+              <span class="text-white">Aucune image</span>
+            </div>
+          <% } %>
+          <div class="card-body">
+            <h5 class="card-title"><%= room.name %></h5>
+            <p class="card-text">Capacité : <%= room.capacity %> personnes</p>
+            <p class="card-text">Équipements : <%= room.equipment || 'Aucun' %></p>
+            <a href="/rooms/<%= room.id %>" class="btn btn-primary">Réserver</a>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>

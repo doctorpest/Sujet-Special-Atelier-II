@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+<h2>Mes Réservations</h2>
+
+<% if (bookings.length === 0) { %>
+    <p>Vous n'avez effectué aucune réservation pour le moment.</p>
+<% } else { %>
+    <div class="flex">
+        <% bookings.forEach(booking => { %>
+            <div class="card" style="min-width: 350px;">
+                <h3><%= booking.room_name %></h3>
+                
+                <form action="/bookings/edit/<%= booking.id %>" method="POST" style="padding: 0;">
+                    <label><strong>Date :</strong></label>
+                    <input type="date" name="booking_date" value="<%= booking.booking_date %>" required>
+                    
+                    <label><strong>Horaire :</strong></label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="time" name="start_time" value="<%= booking.start_time %>" required>
+                        <input type="time" name="end_time" value="<%= booking.end_time %>" required>
+                    </div>
+                    
+                    <button type="submit" style="background: #28a745; margin-top: 10px;">Enregistrer les modifications</button>
+                </form>
+
+                <form action="/bookings/delete/<%= booking.id %>" method="POST" style="padding:0; margin-top: 10px;">
+                    <button type="submit" class="btn-danger">Annuler la réservation</button>
+                </form>
+            </div>
+        <% }) %>
+    </div>
+<% } %>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Réservation de Salles</span>
+            </a>
+            <nav class="nav">
+                <a href="/" class="<%= active === 'home' ? 'active' : '' %>"><i class="fas fa-home"></i> Accueil</a>
+                <a href="/rooms" class="<%= active === 'rooms' ? 'active' : '' %>"><i class="fas fa-door-open"></i> Salles</a>
+                <% if (user) { %>
+                    <a href="/reservations" class="<%= active === 'reservations' ? 'active' : '' %>"><i class="fas fa-calendar-check"></i> Mes Réservations</a>
+                    <a href="/profile" class="<%= active === 'profile' ? 'active' : '' %>">
+                        <% if (user.profile_picture) { %>
+                            <img src="<%= user.profile_picture %>" alt="Photo de profil" class="profile-pic-small">
+                        <% } else { %>
+                            <i class="fas fa-user"></i>
+                        <% } %>
+                        Mon Profil
+                    </a>
+                    <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                <% } else { %>
+                    <a href="/login" class="<%= active === 'login' ? 'active' : '' %>"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+                    <a href="/register" class="register-btn"><i class="fas fa-user-plus"></i> Inscription</a>
+                <% } %>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+        </div>
+    </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-content">
+        <button class="close-btn" id="closeMobileNav"><i class="fas fa-times"></i></button>
+        <a href="/" class="mobile-nav-link"><i class="fas fa-home"></i> Accueil</a>
+        <a href="/rooms" class="mobile-nav-link"><i class="fas fa-door-open"></i> Salles</a>
+        <% if (user) { %>
+            <a href="/reservations" class="mobile-nav-link"><i class="fas fa-calendar-check"></i> Mes Réservations</a>
+            <a href="/profile" class="mobile-nav-link">
+                <% if (user.profile_picture) { %>
+                    <img src="<%= user.profile_picture %>" alt="Photo de profil" class="profile-pic-small">
+                <% } else { %>
+                    <i class="fas fa-user"></i>
+                <% } %>
+                Mon Profil
+            </a>
+            <a href="/logout" class="mobile-nav-link logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+        <% } else { %>
+            <a href="/login" class="mobile-nav-link"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+            <a href="/register" class="mobile-nav-link register-btn"><i class="fas fa-user-plus"></i> Inscription</a>
+        <% } %>
+    </div>
+</div>

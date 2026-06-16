@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nouvelle réservation — MeetRoom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<%- include('../partials/nav', { active: 'reservations' }) %>
+<%- include('../partials/flash') %>
+<main>
+  <a href="/reservations" class="btn btn-outline btn-sm" style="margin-bottom:24px;">← Mes réservations</a>
+
+  <div style="max-width:680px;">
+    <div class="page-header">
+      <div class="page-header-text">
+        <h1>Nouvelle réservation</h1>
+        <p>Réservez une salle en quelques secondes</p>
+      </div>
+    </div>
+
+    <div class="card" style="padding:32px;">
+      <form method="POST" action="/reservations">
+
+        <div class="form-group">
+          <label class="form-label">Salle *</label>
+          <select name="room_id" class="form-control" required id="room-select">
+            <option value="">— Choisir une salle —</option>
+            <% rooms.forEach(r => { %>
+              <option value="<%= r.id %>"
+                data-capacity="<%= r.capacity %>"
+                data-floor="<%= r.floor || '' %>"
+                data-equip="<%= r.equipment %>"
+                <%= preRoom && preRoom.id === r.id ? 'selected' : '' %>>
+                <%= r.name %> (<%=r.capacity%> pers. — <%=r.floor||'RDC'%>)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <!-- Room preview card -->
+        <div id="room-preview" style="display:none; background:var(--cream); border-radius:8px; padding:14px 16px; margin-bottom:20px; font-size:13px; color:var(--muted);">
+          <strong id="preview-name" style="color:var(--ink);"></strong>
+          <span id="preview-info"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Titre de la réunion *</label>
+          <input type="text" name="title" class="form-control" placeholder="ex: Réunion de projet, Entretien RH…" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+          <div class="form-group">
+            <label class="form-label">Date *</label>
+            <input type="date" name="date" class="form-control" required
+              min="<%= new Date().toISOString().split('T')[0] %>"
+              value="<%= preDate %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Début *</label>
+            <input type="time" name="start_time" class="form-control" required value="<%= preStart || '09:00' %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fin *</label>
+            <input type="time" name="end_time" class="form-control" required value="10:00">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Nombre de participants</label>
+          <input type="number" name="attendees" class="form-control" min="1" value="1" placeholder="1" id="attendees-input">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Notes (optionnel)</label>
+          <textarea name="notes" class="form-control" placeholder="Ordre du jour, matériel nécessaire…"></textarea>
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:8px;">
+          <button type="submit" class="btn btn-primary" style="padding:13px 28px; font-size:15px;">Confirmer la réservation</button>
+          <a href="/reservations" class="btn btn-outline">Annuler</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+<footer>© <%= new Date().getFullYear() %> MeetRoom</footer>
+
+<script>
+const roomData = {};
+<%- rooms.map(r => `roomData[${r.id}] = ${JSON.stringify({name:r.name, capacity:r.capacity, floor:r.floor||'', equipment:r.equipment})};`).join('\n') %>
+
+document.getElementById('room-select').addEventListener('change', function() {
+  const val = this.value;
+  const preview = document.getElementById('room-preview');
+  const attendeesInput = document.getElementById('attendees-input');
+  if (val && roomData[val]) {
+    const r = roomData[val];
+    document.getElementById('preview-name').textContent = r.name + ' ';
+    document.getElementById('preview-info').textContent = `· ${r.capacity} pers. max · ${r.floor} · ${r.equipment}`;
+    attendeesInput.max = r.capacity;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+    attendeesInput.removeAttribute('max');
+  }
+});
+
+// Trigger on load if pre-selected
+if (document.getElementById('room-select').value) {
+  document.getElementById('room-select').dispatchEvent(new Event('change'));
+}
+</script>
+</body>
+</html>

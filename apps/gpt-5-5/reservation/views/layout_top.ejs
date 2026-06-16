@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Réservation de salles</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/rooms">MeetRooms</a>
+  <nav>
+    <a href="/rooms">Salles</a>
+    <% if (currentUser) { %>
+      <a href="/reservations">Mes réservations</a>
+      <a href="/profile"><img class="avatar" src="<%= currentUser.profile_photo %>" alt="Profil"> <%= currentUser.name %></a>
+      <form class="inline" action="/logout" method="post"><button>Déconnexion</button></form>
+    <% } else { %>
+      <a href="/login">Connexion</a>
+      <a href="/register">Inscription</a>
+    <% } %>
+  </nav>
+</header>
+<main class="container">
+  <% if (flash) { %><div class="alert <%= flash.type %>"><%= flash.message %></div><% } %>

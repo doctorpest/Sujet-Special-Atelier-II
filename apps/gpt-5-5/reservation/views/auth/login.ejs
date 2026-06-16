@@ -1,0 +1,11 @@
+<%- include('../layout_top') %>
+<section class="card narrow">
+  <h1>Connexion</h1>
+  <form method="post" action="/login" class="form">
+    <label>Email <input type="email" name="email" required></label>
+    <label>Mot de passe <input type="password" name="password" required></label>
+    <button class="primary">Se connecter</button>
+  </form>
+  <p>Pas encore de compte ? <a href="/register">Créer un compte</a></p>
+</section>
+<%- include('../layout_bottom') %>

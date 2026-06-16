@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Administration{% endblock %}
+
+{% block content %}
+<h1>Administration des utilisateurs</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom complet</th>
+            <th>Email</th>
+            <th>Rôle</th>
+            <th>Créé le</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.full_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.created_at }}</td>
+                <td>
+                    <div class="actions">
+                        <form
+                            class="inline-form"
+                            method="post"
+                            action="{{ url_for('update_user_role', user_id=user.id) }}"
+                        >
+                            <select name="role">
+                                <option value="user" {% if user.role == "user" %}selected{% endif %}>
+                                    user
+                                </option>
+                                <option value="admin" {% if user.role == "admin" %}selected{% endif %}>
+                                    admin
+                                </option>
+                            </select>
+
+                            <button class="secondary" type="submit">Modifier</button>
+                        </form>
+
+                        <form
+                            class="inline-form"
+                            method="post"
+                            action="{{ url_for('delete_user', user_id=user.id) }}"
+                            onsubmit="return confirm('Supprimer cet utilisateur ?');"
+                        >
+                            <button class="danger" type="submit">Supprimer</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucun utilisateur.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

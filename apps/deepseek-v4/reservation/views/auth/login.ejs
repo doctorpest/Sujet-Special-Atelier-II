@@ -1,0 +1,8 @@
+<%- layout('layout') %>
+<h2>Connexion</h2>
+<% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+<form method="POST" action="/login">
+  <div class="mb-3"><input name="email" type="email" placeholder="Email" class="form-control" required></div>
+  <div class="mb-3"><input name="password" type="password" placeholder="Mot de passe" class="form-control" required></div>
+  <button type="submit" class="btn btn-primary">Se connecter</button>
+</form>
