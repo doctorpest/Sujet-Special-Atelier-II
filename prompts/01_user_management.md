@@ -1,4 +1,4 @@
-# Scénario 1 — Gestion d'utilisateurs
+# Scénario 1: Gestion d'utilisateurs
 
 ## Prompt à soumettre (texte exact)
 
